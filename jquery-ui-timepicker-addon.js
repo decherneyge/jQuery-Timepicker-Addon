@@ -811,6 +811,14 @@ $.extend(Timepicker.prototype, {
 		if (this._defaults.timeOnly === true) {
 			formattedDateTime = this.formattedTime;
 		} else if (this._defaults.timeOnly !== true && (this._defaults.alwaysSetTime || timeAvailable)) {
+			
+                //Beacuse the datetime picker may not be instatiated
+                // we need to check to see if the text box contains text
+                // if so try parsing it for a time and carry that forward
+                var timeSpot =  dp_inst.lastVal.lastIndexOf(this._defaults.separator);
+                if (timeSpot>0 && this.formattedTime == '') {
+                    this.formattedTime = dp_inst.lastVal.substr(dp_inst.lastVal.lastIndexOf(this._defaults.separator) + 1);
+                }
 			formattedDateTime += this._defaults.separator + this.formattedTime + this._defaults.timeSuffix;
 		}
 
